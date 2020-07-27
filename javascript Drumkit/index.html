@@ -61,10 +61,10 @@
 
   const keys = document.querySelectorAll(`.key`) // Select all keys
   
-  function playSound(e){
-    // console.log(e)
-    const audio = document.querySelector(`audio[data-key='${e.keyCode}']`); // Select specific audio of pressed key.
-    const key = document.querySelector(`button[data-key='${e.keyCode}']`); // select specific pressed key
+  function playSound(keyCode){
+    console.log(keyCode)
+    const audio = document.querySelector(`audio[data-key='${keyCode}']`); // Select specific audio of pressed key.
+    const key = document.querySelector(`button[data-key='${keyCode}']`); // select specific pressed key
     
     if(!audio) {return}; // if key doesn't belong to any audio, exit function.
 
@@ -79,28 +79,13 @@
     this.classList.remove('playing') // this is called back from the keys.forEach loop. I.e., it selects the key that had just finished transitioning.
   }
 
-  window.addEventListener('keydown', playSound) // Play the effects when buttons are pressed.
+  window.addEventListener('keydown', e => playSound(e.keyCode)) // Play the effects when buttons are pressed.
 
-  // document.querySelector('.key').addEventListener("click", console.log('yay'))
-
-  function playSoundClick(dataKey){
-    // console.log(dataKey)
-    const audio = document.querySelector(`audio[data-key='${dataKey}']`); // Select specific audio of pressed key.
-    const key = document.querySelector(`button[data-key='${dataKey}']`); // select specific pressed key
-    
-    if(!audio) {return}; // if key doesn't belong to any audio, exit function.
-
-    audio.currentTime = 0; // reset the audio loop every time the key is pressed.
-    audio.play();
-
-    key.classList.add("playing"); // add special effects to the key.
-  }
-
-  keys.forEach(key => key.addEventListener("click", ))
-  // playSoundClick(key.getAttribute('data-key')))
-  // key.classList.add(key.getAttribute('data-key'))
-  // key.addEventListener("click", playSound(key.getAttribute('data-key')))
-  // key.addEventListener("click", playSound)key.addEventListener("click", console.log(key)
+  window.addEventListener('click', function(e) {
+    const keyCode = e.explicitOriginalTarget.parentElement.attributes['data-key'].nodeValue;
+    console.log(keyCode);
+    playSound(keyCode)
+  })
 
   keys.forEach(key => key.addEventListener("transitionend", removeEffect))
 
