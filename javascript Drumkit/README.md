@@ -6,4 +6,4 @@ The exercise came with a prebuilt css and skeleton html. My job was to create th
 
 ## How to use?
 
-You can click the drums, or use your keyboard to hit the corresponding keys.
+You can click the drums keys, or use your keyboard to hit the corresponding keys.
