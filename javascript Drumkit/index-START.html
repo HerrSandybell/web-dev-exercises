@@ -9,42 +9,42 @@
 
 
   <div class="keys">
-    <div data-key="65" class="key">
+    <button data-key="65" class="key">
       <kbd>A</kbd>
       <span class="sound">clap</span>
-    </div>
-    <div data-key="83" class="key">
+    </button>
+    <button data-key="83" class="key">
       <kbd>S</kbd>
       <span class="sound">hihat</span>
-    </div>
-    <div data-key="68" class="key">
+    </button>
+    <button data-key="68" class="key">
       <kbd>D</kbd>
       <span class="sound">kick</span>
-    </div>
-    <div data-key="70" class="key">
+    </button>
+    <button data-key="70" class="key">
       <kbd>F</kbd>
       <span class="sound">openhat</span>
-    </div>
-    <div data-key="71" class="key">
+    </button>
+    <button data-key="71" class="key">
       <kbd>G</kbd>
       <span class="sound">boom</span>
-    </div>
-    <div data-key="72" class="key">
+    </button>
+    <button data-key="72" class="key">
       <kbd>H</kbd>
       <span class="sound">ride</span>
-    </div>
-    <div data-key="74" class="key">
+    </button>
+    <button data-key="74" class="key">
       <kbd>J</kbd>
       <span class="sound">snare</span>
-    </div>
-    <div data-key="75" class="key">
+    </button>
+    <button data-key="75" class="key">
       <kbd>K</kbd>
       <span class="sound">tom</span>
-    </div>
-    <div data-key="76" class="key">
+    </button>
+    <button data-key="76" class="key">
       <kbd>L</kbd>
       <span class="sound">tink</span>
-    </div>
+    </button>
   </div>
 
   <audio data-key="65" src="sounds/clap.wav"></audio>
@@ -58,6 +58,34 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+
+  const keys = document.querySelectorAll(`.key`) // Select all keys
+  
+  function playSound(e){
+    const audio = document.querySelector(`audio[data-key='${e.keyCode}']`); // Select specific audio of pressed key.
+    const key = document.querySelector(`button[data-key='${e.keyCode}']`); // select specific pressed key
+    
+    if(!audio) {return}; // if key doesn't belong to any audio, exit function.
+
+    audio.currentTime = 0; // reset the audio loop every time the key is pressed.
+    audio.play();
+
+    key.classList.add("playing"); // add special effects to the key.
+  }
+
+  function removeEffect (e) {
+    if (e.propertyName != 'transform') return; // We select one of the properties that finished transitioning, I selected transform.
+    this.classList.remove('playing') // this is called back from the keys.forEach loop. I.e., it selects the key that had just finished transitioning.
+  }
+
+  window.addEventListener('keydown', playSound) // Play the effects when buttons are pressed.
+
+  keys.forEach(key => key.addEventListener("click", console.log('wow')))
+  // key.addEventListener("click", playSound)
+
+  keys.forEach(key => key.addEventListener("transitionend", removeEffect))
+
+
 
 </script>
 
