@@ -81,10 +81,11 @@
 
   window.addEventListener('keydown', e => playSound(e.keyCode)) // Play the effects when buttons are pressed.
 
+  // Having the attribute I want in a specific element presented a problem with returning the attribute I needed. Thus, this function checks if we get a data-key from the child elements, and if not (i.e., the user clicks outside the child elements but within the button), it uses a different 'address' for data-key
   window.addEventListener('click', function(e) {
-    const keyCode = e.explicitOriginalTarget.parentElement.attributes['data-key'].nodeValue;
-    console.log(keyCode);
-    playSound(keyCode)
+    let key = e.target.parentElement.getAttribute('data-key');
+    if (!key) {key = e.target.getAttribute('data-key')}
+    playSound(key)
   })
 
   keys.forEach(key => key.addEventListener("transitionend", removeEffect))
